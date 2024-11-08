@@ -103,18 +103,27 @@ function closeUnauthorizedTabs() {
 function unlock() {
   isLocked = false;
   clearInterval(tabCloseInterval);
-  savedTabs.forEach((tab) => {
-    chrome.tabs.create({ url: tab.url });
+
+  // Get currently open tabs
+  chrome.tabs.query({}, (openTabs) => {
+    const openTabUrls = openTabs.map((tab) => tab.url);
+
+    // Only open saved tabs that are not already open
+    savedTabs.forEach((tab) => {
+      if (!openTabUrls.includes(tab.url)) {
+        chrome.tabs.create({ url: tab.url });
+      }
+    });
+
+    savedTabs = [];
+    console.log("Unlocked and restored saved tabs.");
+
+    // Clear lock status and remaining time from storage
+    chrome.storage.local.remove(['isLocked', 'remainingTime'], () => {
+      console.log("Lock status and remaining time cleared.");
+    });
+
+    // Send a message to popup.js to update the lock status
+    chrome.runtime.sendMessage({ statusUpdated: true });
   });
-  savedTabs = [];
-
-  console.log("Unlocked and restored saved tabs.");
-
-  // Clear lock status and remaining time from storage
-  chrome.storage.local.remove(['isLocked', 'remainingTime'], () => {
-    console.log("Lock status and remaining time cleared.");
-  });
-
-  // Send a message to popup.js to update the lock status
-  chrome.runtime.sendMessage({ statusUpdated: true });
 }
