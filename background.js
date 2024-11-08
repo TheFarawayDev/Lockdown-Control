@@ -123,6 +123,15 @@ function unlock() {
       console.log("Lock status and remaining time cleared.");
     });
 
+    // Close any open "Tab Blocked" pages
+    openTabs.forEach((tab) => {
+      if (tab.url.startsWith(chrome.runtime.getURL('block.html'))) {
+        chrome.tabs.remove(tab.id, () => {
+          console.log("Closed Tab Blocked page.");
+        });
+      }
+    });
+
     // Send a message to popup.js to update the lock status
     chrome.runtime.sendMessage({ statusUpdated: true });
   });
