@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Blocked</title>
+  <style>
+    :root {
+      /* Light mode colors */
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --primary-color: #ff4c4c;
+      --secondary-text-color: #666666;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Dark mode colors */
+        --bg-color: #1e1e1e;
+        --text-color: #f1f1f1;
+        --primary-color: #ff6b6b;
+        --secondary-text-color: #cccccc;
+      }
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: var(--secondary-text-color);
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tab Blocked</h1>
+    <p>This page is restricted and cannot be accessed while the lockdown is active.</p>
+  </div>
+</body>
+</html>

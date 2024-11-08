@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lockdown Browser</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .links a {
+      display: block;
+      font-size: 1.2em;
+      color: #4c56af;
+      margin: 10px 0;
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      color: #7ea1e2;
+    }
+
+    #info {
+      font-size: 1em;
+      margin-top: 20px;
+      color: #aaa;
+    }
+
+    #iframe-container {
+      display: none; /* Hidden by default */
+      width: 100%;
+      height: 80%;
+      margin-top: 20px;
+      border: none;
+      background-color: #222;
+      position: relative; /* For absolute positioning of the close button */
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lockdown Browser (Restricted Access)</h1>
+    <div class="links" id="link-container">
+      <p>Only the following websites are allowed:</p>
+      <a href="#" onclick="openSite('https://nacs.instructure.com'); return false;">Canvas</a>
+      <a href="#" onclick="openSite('https://mail.google.com'); return false;">Gmail</a>
+    </div>
+    <p id="info">Access to other sites is restricted.</p>
+    <div id="iframe-container">
+      <button class="close-button" onclick="closeEmbed()">X</button>
+      <iframe id="embedded-site" src="" title="Embedded Site"></iframe>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Check if there's a last opened tab saved in localStorage
+      const lastOpenedUrl = localStorage.getItem('lastOpenedUrl');
+      if (lastOpenedUrl) {
+        openSite(lastOpenedUrl, true); // Open the last opened site silently
+      }
+    });
+
+    function openSite(url, silent = false) {
+      const iframeContainer = document.getElementById('iframe-container');
+      const linkContainer = document.getElementById('link-container');
+      const embeddedSite = document.getElementById('embedded-site');
+
+      // Check if the URL can be loaded in an iframe
+      const isAllowed = checkUrl(url);
+      if (isAllowed) {
+        embeddedSite.src = url; // Set the source of the iframe to the clicked link
+        linkContainer.style.display = 'none'; // Hide the links
+        iframeContainer.style.display = 'block'; // Show the iframe container
+
+        // Save the last opened URL to localStorage
+        if (!silent) {
+          localStorage.setItem('lastOpenedUrl', url);
+        }
+      } else {
+        alert("This site cannot be loaded in an iframe."); // Inform user
+      }
+    }
+
+    function closeEmbed() {
+      const iframeContainer = document.getElementById('iframe-container');
+      const linkContainer = document.getElementById('link-container');
+      const embeddedSite = document.getElementById('embedded-site');
+
+      embeddedSite.src = ''; // Clear the iframe source
+      iframeContainer.style.display = 'none'; // Hide the iframe container
+      linkContainer.style.display = 'block'; // Show the links again
+    }
+
+    function checkUrl(url) {
+      // Check if the URL is one of the allowed sites
+      const allowedUrls = [
+        'https://nacs.instructure.com',
+        'https://mail.google.com'
+      ];
+      return allowedUrls.includes(url);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lockdown Control</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      padding: 0;
+      margin: 0;
+      color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+    }
+
+    .container {
+      width: 300px;
+      padding: 20px;
+      border: 2px solid #444;
+      border-radius: 10px;
+      background-color: #222;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    h3 {
+      color: #bbb;
+      font-size: 22px;
+      margin: 0;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #444;
+    }
+
+    input[type="password"],
+    input[type="number"] {
+      width: 90%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #7e7e7e;
+      background-color: #444;
+      color: #ccc;
+      margin-bottom: 15px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="password"]:focus,
+    input[type="number"]:focus {
+      border-color: #ffffff;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #555;
+      color: #ccc;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #777;
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background-color: #444;
+      color: #888;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 15px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 16px;
+      border: 1px solid;
+    }
+
+    #status.locked {
+      color: #ffdddd;
+      background-color: #660000;
+      border-color: #ff4444;
+    }
+
+    #status.unlocked {
+      color: #ccffcc;
+      background-color: #003300;
+      border-color: #00cc00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Lockdown Control</h3>
+
+    <div id="status" class="unlocked">Status: Unlocked</div>
+
+    <div class="input-container">
+      <input type="password" id="adminCode" placeholder="Enter Admin Code" />
+      <input type="number" id="lockDuration" placeholder="Lock Duration (minutes)" min="1" max="120" />
+      <button id="toggleLock">Enable Lockdown</button>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
