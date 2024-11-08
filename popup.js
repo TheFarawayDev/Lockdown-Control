@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusDiv = document.getElementById("status");
   const lockDurationInput = document.getElementById("lockDuration");
   const adminCodeInput = document.getElementById("adminCode");
-  const countdownDisplay = document.getElementById("countdown");
 
   // Request initial lock status from background
   chrome.runtime.sendMessage({ requestStatus: true }, (response) => {
@@ -47,10 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
       remainingTime = 0; // Reset the time when unlocked
       updateStatus();
       clearInterval(timerInterval); // Clear any existing timer
-      countdownDisplay.textContent = "00:00"; // Reset display
     } else if (message.timeUpdated) {
       remainingTime = message.remainingTime;
-      updateCountdownDisplay();
     }
   });
 
@@ -61,19 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
       timerInterval = setInterval(() => {
         if (remainingTime > 0) {
           remainingTime--;
-          updateCountdownDisplay();
           chrome.runtime.sendMessage({ updateTime: remainingTime }); // Update time in background
         } else {
           clearInterval(timerInterval);
         }
       }, 1000);
     }
-  }
-
-  function updateCountdownDisplay() {
-    const minutes = Math.floor(remainingTime / 60);
-    const seconds = remainingTime % 60;
-    countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
   function updateStatus() {
