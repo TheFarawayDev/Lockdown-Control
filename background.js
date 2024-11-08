@@ -11,7 +11,8 @@ let unblockedUrls = [
   'https://docs.google.com',
   'https://forms.google.com',
   'https://sheets.google.com',
-  'https://slides.google.com'
+  'https://slides.google.com',
+  'https://sites.google.com/students.nacs.k12.in.us/farland-studios'
 ];
 let tabCloseInterval;
 let savedTabs = [];
